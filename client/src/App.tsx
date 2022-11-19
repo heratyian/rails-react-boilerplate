@@ -25,7 +25,7 @@ class App extends React.Component<{}, S> {
 
   render() {
     return (
-      <div id="root">
+      <div className="container">
         <h1>Hello World</h1>
         <p>The current time is: {this.state.ping}</p>
       </div>
