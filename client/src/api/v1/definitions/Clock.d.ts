@@ -1,4 +1,4 @@
 
 export interface ClockIndex {
-    response: string | null;
+    time: string | null;
 }

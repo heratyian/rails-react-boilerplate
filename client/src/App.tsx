@@ -1,9 +1,10 @@
 import React from 'react';
 
 import Ping from './api/v1/Clock';
+import { ClockIndex } from './api/v1/definitions/Clock';
 
 interface S {
-  ping: string | null;
+  clock: ClockIndex | null;
 }
 
 class App extends React.Component<{}, S> {
@@ -12,20 +13,21 @@ class App extends React.Component<{}, S> {
     super(p);
 
     this.state = {
-      ping: null,
+      clock: null,
     }
   }
   
   async componentDidMount() {
-    const { response: ping } = await Ping.index();
-    this.setState({ ping });
+    const clock = await Ping.index();
+    this.setState({ clock });
   }
 
   render() {
+    const { clock } = this.state;
     return (
       <div className="container">
         <h1 className='my-5'>Hello World</h1>
-        <p>The current time is: {this.state.ping}</p>
+        <p>The current time is: {clock?.time}</p>
       </div>
     );
   }
