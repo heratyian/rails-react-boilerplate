@@ -2,8 +2,6 @@ import React from 'react';
 
 import Ping from './api/v1/Clock';
 
-import './App.css';
-
 interface S {
   ping: string | null;
 }
@@ -26,7 +24,7 @@ class App extends React.Component<{}, S> {
   render() {
     return (
       <div className="container">
-        <h1>Hello World</h1>
+        <h1 className='my-5'>Hello World</h1>
         <p>The current time is: {this.state.ping}</p>
       </div>
     );
