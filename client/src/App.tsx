@@ -1,34 +1,28 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import Ping from './api/v1/Clock';
-import { ClockIndex } from './api/v1/definitions/Clock';
 
-interface S {
-  clock: ClockIndex | null;
-}
+import { CLOCK, WEATHER } from './config/routes';
+import ClockPage from './pages/ClockPage';
+import HomePage from './pages/HomePage';
+import Layout from './pages/Layout';
+import WeatherPage from './pages/WeatherPage';
 
-class App extends React.Component<{}, S> {
 
-  constructor(p: {}) {
-    super(p);
-
-    this.state = {
-      clock: null,
-    }
-  }
-  
-  async componentDidMount() {
-    const clock = await Ping.index();
-    this.setState({ clock });
-  }
+class App extends React.Component {
 
   render() {
-    const { clock } = this.state;
     return (
-      <div className="container">
-        <h1 className='my-5'>Hello World</h1>
-        <p>The current time is: {clock?.time}</p>
-      </div>
+      <>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path={CLOCK} element={<ClockPage />} />
+            <Route path={WEATHER} element={<WeatherPage />} />
+            <Route path="*" element={<></>} />
+          </Route>
+        </Routes>
+      </>
     );
   }
 }
