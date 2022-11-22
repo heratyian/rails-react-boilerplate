@@ -4,5 +4,7 @@ export interface MovieQueryParams {
 }
 
 export interface MovieIndex {
+  id: number;
   title: string | null;
+  posterUrl: string | null;
 }

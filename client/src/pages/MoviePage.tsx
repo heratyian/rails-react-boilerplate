@@ -22,8 +22,6 @@ export default class MoviePage extends React.Component<{}, S> {
 
   onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log(this.state);
     const { movieQueryParams } = this.state;
     const results = await MovieApi.search(movieQueryParams);
 
@@ -38,6 +36,8 @@ export default class MoviePage extends React.Component<{}, S> {
           <input
             id="movie-search-input"
             name="query"
+            required
+            autoFocus
             value={movieQueryParams?.query}
             onChange={(e) => this.setState({ movieQueryParams: { ...movieQueryParams, query: e.currentTarget.value }})}
           />
@@ -56,11 +56,18 @@ export default class MoviePage extends React.Component<{}, S> {
   renderMovies() {
     return (
       <div>
-        {this.state.results.map(m => (
-          <div>
-            <h5>{m?.title}</h5>
-          </div>
-        ))}
+        {this.state.results.map(m => {
+          const { id, title, posterUrl } = m;
+          return(
+            <div key={id}>
+              <h5>{title}</h5>
+              <img
+                src={posterUrl || "//www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"}
+                alt="movie poster"
+              />
+            </div>
+          )
+        })}
       </div>
     )
   }
