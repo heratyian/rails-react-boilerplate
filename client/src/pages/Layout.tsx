@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import { CLOCK, HOME, WEATHER } from '../config/routes';
+import { CLOCK, HOME, MOVIE, WEATHER } from '../config/routes';
 
 
 class Layout extends React.Component {
@@ -18,6 +18,9 @@ class Layout extends React.Component {
             </li>
             <li>
               <a href={WEATHER}>Weather</a>
+            </li>
+            <li>
+              <a href={MOVIE}>Movie</a>
             </li>
           </ul>
         </nav>

@@ -2,11 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { CLOCK, WEATHER } from './config/routes';
+import { CLOCK, MOVIE, WEATHER } from './config/routes';
 import ClockPage from './pages/ClockPage';
 import PageProps from './pages/definitions/PageProps';
 import HomePage from './pages/HomePage';
 import Layout from './pages/Layout';
+import MoviePage from './pages/MoviePage';
 import WeatherPage from './pages/WeatherPage';
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
             <Route index element={<HomePage />} />
             <Route path={CLOCK} element={<ClockPage />} />
             <Route path={WEATHER} element={<WeatherPage {...this.props as PageProps} />} />
+            <Route path={MOVIE} element={<MoviePage />} />
             <Route path="*" element={<></>} />
           </Route>
         </Routes>
