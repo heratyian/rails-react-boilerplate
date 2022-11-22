@@ -1,44 +1,48 @@
 import React from 'react';
-import { WeatherIndex, WeatherQuery } from '../api/v1/definitions/Weather';
+import { connect } from 'react-redux';
 
+import { WeatherQuery } from '../api/v1/definitions/Weather';
 import WeatherApi from '../api/v1/Weather';
+import { pushWeather } from '../redux-modules/Weather'
+import PageProps from './definitions/PageProps';
+
+interface P extends PageProps {};
 
 interface S {
   weatherQuery: WeatherQuery;
-  response: WeatherIndex | null;
 }
 
-class WeatherPage extends React.Component<{}, S> {
+class WeatherPage extends React.Component<P, S> {
 
-  constructor(p: {}) {
+  constructor(p: P) {
     super(p);
 
     this.state = {
       weatherQuery: {
         location: '',
       },
-      response: null,
     };
   }
 
   onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(this.state);
-
     const response = await WeatherApi.index(this.state.weatherQuery);
-    // todo - push response to redux history
-    this.setState({ response });
+    this.props.dispatch(pushWeather(response));
   }
 
-  renderWeather() {
-    const { response } = this.state;
-    const { currentWeather } = response || {};
-    const weather = currentWeather?.weather[0]?.main;
-    const temp = currentWeather?.main?.temp;
-    const name = currentWeather?.name;
-
-    return weather && (
-      <p>Current weather in {name}: {weather} and {temp} degress celsius</p>
+  renderWeathers() {
+    return (
+      <div className='my-3'>
+        {this.props.weather.weathers.map((w, i) => {
+          const { currentWeather } = w;
+          const weather = currentWeather?.weather[0]?.main;
+          const temp = currentWeather?.main?.temp;
+          const name = currentWeather?.name;
+      
+          return weather && (
+            <p key={i}>Current weather in {name}: {weather} and {temp} degress celsius</p>
+          )})}
+      </div>
     );
   }
 
@@ -53,6 +57,7 @@ class WeatherPage extends React.Component<{}, S> {
             name="location"
             value={location || ''}
             required
+            autoFocus
             onChange={(e) => this.setState({
               weatherQuery: {
                 ...weatherQuery,
@@ -77,10 +82,10 @@ class WeatherPage extends React.Component<{}, S> {
       <div className='container'>
         <h1>Current Weather</h1>
         {this.renderSearchForm()}
-        {this.renderWeather()}
+        {this.renderWeathers()}
       </div>
     );
   }
 }
 
-export default WeatherPage;
+export default connect(state => state)(WeatherPage);
