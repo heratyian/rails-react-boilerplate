@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { CLOCK, WEATHER } from './config/routes';
 import ClockPage from './pages/ClockPage';
@@ -8,12 +7,11 @@ import HomePage from './pages/HomePage';
 import Layout from './pages/Layout';
 import WeatherPage from './pages/WeatherPage';
 
-
 class App extends React.Component {
 
   render() {
     return (
-      <>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -22,7 +20,7 @@ class App extends React.Component {
             <Route path="*" element={<></>} />
           </Route>
         </Routes>
-      </>
+      </BrowserRouter>
     );
   }
 }
