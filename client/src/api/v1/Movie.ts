@@ -5,7 +5,7 @@ import { MOVIE_INDEX } from "./routes";
 
 
 export default class Movie {
-  static async search(q: MovieQueryParams): Promise<MovieIndex[]> {
+  static async search(q: MovieQueryParams): Promise<MovieIndex> {
     const response = await fetch(API_URL + MOVIE_INDEX + '?' + stringify(q), {
       headers: {
         'Accept': 'application/json'

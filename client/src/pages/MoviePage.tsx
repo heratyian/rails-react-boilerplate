@@ -4,7 +4,7 @@ import MovieApi from '../api/v1/Movie';
 
 interface S {
   movieQueryParams: MovieQueryParams
-  results: MovieIndex[];
+  response: MovieIndex | null;
 }
 
 export default class MoviePage extends React.Component<{}, S> {
@@ -16,16 +16,16 @@ export default class MoviePage extends React.Component<{}, S> {
       movieQueryParams: {
         query: '',
       },
-      results: [],
+      response: null,
     }
   }
 
   onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { movieQueryParams } = this.state;
-    const results = await MovieApi.search(movieQueryParams);
+    const response = await MovieApi.search(movieQueryParams);
 
-    this.setState({ results });
+    this.setState({ response });
   }
 
   renderSearchInputForm() {
@@ -54,9 +54,10 @@ export default class MoviePage extends React.Component<{}, S> {
   }
 
   renderMovies() {
-    return (
+    const { response } = this.state;
+    return response && (
       <div>
-        {this.state.results.map(m => {
+        {response.results.map(m => {
           const { id, title, posterUrl } = m;
           return(
             <div key={id}>
